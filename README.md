@@ -11,7 +11,7 @@ Client CLI in italiano per lo streaming di anime, ispirato ad [ani-cli](https://
 
 pip install requests beautifulsoup4 rich questionary
 
-se non si vogliono installare dipendenze, c'è a disposizione anche l'eseguibile per windows
+se non si vogliono installare dipendenze, ci sono a disposizione anche gli eseguibili per windows e linux
 
 ## Utilizzo
 

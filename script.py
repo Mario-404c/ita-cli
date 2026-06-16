@@ -121,7 +121,7 @@ while True:
                     ).ask()
 
                 if(scelta == "mpv"):
-                    subprocess.run(["mpv.exe", link])
+                    subprocess.run(["mpv", link])
                 else:
                     subprocess.run(["ffplay", link])
             
