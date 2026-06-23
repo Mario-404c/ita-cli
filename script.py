@@ -114,19 +114,51 @@ while True:
                     ).ask()
                 
                 link = trova_link(link_ep[lista_ep.index(scelta)]) #Link dell'episodio in base allo stesso index della scelta per lista_ep
-                
-                scelta = questionary.select(
-                        "Scegli un player: ",
-                        choices=["mpv", "ffplay"]
-                    ).ask()
-
-                if(scelta == "mpv"):
-                    subprocess.run(["mpv", link])
+                if link is None:
+                    rprint("[bold red]Errore, non sono riuscito a trovare nessun link [/bold red]")
                 else:
-                    subprocess.run(["ffplay", link])
+                    scelta = questionary.select(
+                            "Scegli un player: ",
+                            choices=["mpv", "ffplay"]
+                        ).ask()
+
+                    if(scelta == "mpv"):
+                        subprocess.run(["mpv", link])
+                    else:
+                        subprocess.run(["ffplay", link])
             
         case "Scarica":
-            rprint("Funzione non aggiunta")
+            lista_anime = []
+            link_anime = []
+            lista_ep = []
+            link_ep = []
+            
+            lista_anime, link_anime = cerca()
+            
+            if not lista_anime:
+                rprint("[bold red]La ricerca non ha prodotto nessun risultato![/bold red]")
+            else:
+                scelta1 = questionary.select(
+                        "Seleziona uno dei titoli disponibili:",
+                        choices=lista_anime
+                    ).ask()
+                
+                lista_ep, link_ep = seleziona_episodio(link_anime[lista_anime.index(scelta1)]) #Link dell'anime in base allo stesso index della scelta per lista_anime
+                
+                scelta2 = questionary.select(
+                        "Seleziona un episodio: ",
+                        choices=lista_ep
+                    ).ask()
+                
+                link = trova_link(link_ep[lista_ep.index(scelta2)])
+                if link is None:
+                    rprint("[bold red]Errore, non sono riuscito a trovare nessun link [/bold red]")
+                else:
+                    risposta = input("Scaricare? | y/n ")
+                    if(risposta.lower() == "y"):
+                        nome_video = scelta1 + " " + scelta2 + ".mkv"
+                        subprocess.run(["ffmpeg", "-i", link, "-c", "copy", nome_video, "-loglevel", "error", "-stats"])
+                
         case "Esci":
             rprint("Arrivederci!")
             break
